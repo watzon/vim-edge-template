@@ -1,0 +1,8 @@
+@layout("master")
+
+@component('alert', { type: 'success' })
+
+@each(number in range(10))
+    <p>{{ number }}</p>
+@endeach
+
