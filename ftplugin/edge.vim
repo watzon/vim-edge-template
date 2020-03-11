@@ -15,9 +15,6 @@ setlocal path+=resources/views;
 setlocal include=\\w\\@<!@\\%(include\\\|extends\\)
 setlocal define=\\w\\@<!@\\%(yield\\)
 
-setlocal commentstring={{--%s--}}
-setlocal comments+=s:{{--,m:\ \ \ \ ,e:--}}
-
 " if exists('loaded_matchit') && exists('b:match_words')
 "     " Append to html matchit words
 "     let b:match_words .= ',' .

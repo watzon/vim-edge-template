@@ -16,12 +16,17 @@ let s:directives_single_line = '!\w\+\|include\|layout\|debugger'
 
 setlocal autoindent
 setlocal indentexpr=GetEdgeIndent()
-setlocal indentkeys=o,O,<>>,!^F,0=}},=@end
+setlocal indentkeys+=0=}},=@end
 
 " Only define the function once.
 if exists('*GetEdgeIndent')
     finish
 endif
+
+function! s:IsDelimiter(lnum)
+    let line = getline(a:lnum)
+    return line =~# '^\s*@!\?\w\+'
+endfunction
 
 function! s:IsSingleLineDelimiter(lnum)
     let line = getline(a:lnum)
@@ -49,9 +54,12 @@ function! GetEdgeIndent()
     endif
 
     " 3. Increase indentation if the line contains a starting delimiter.
-    if !s:IsSingleLineDelimiter(lnum)
-        let indent = indent + &sw
-        return indent
+    if s:IsDelimiter(lnum)
+        if s:IsSingleLineDelimiter(lnum)
+            return indent
+        else
+            return indent + &sw
+        end
     endif
 
     " 4. External indent scripts (HTML)
